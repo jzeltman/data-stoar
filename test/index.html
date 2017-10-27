@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Data Stoar Testing</title>
+    </head>
+    <body>
+
+        <div
+            data-component="myTestComponent"
+            data-component-instance="1"
+            data-title="My Fun Title"
+            data-cool-info="Cool Info" >
+            <h1>Test Component</h1>
+        </div>
+
+        <div
+            data-component="myTestComponent"
+            data-component-instance="2"
+            data-title="My Fun Title"
+            data-cool-info="Cool Info" >
+            <h1>Test Component</h1>
+        </div>
+
+        <div
+            data-component="myTestComponent"
+            data-component-instance="3"
+            data-title="My Fun Title"
+            data-cool-info="Cool Info" >
+            <h1>Test Component</h1>
+        </div>
+
+        <script type="application/json"
+            data-component="myTestComponent"
+            data-component-config
+            data-component-instance="1">
+            {
+                "myInfo" : "Cool2"
+            }
+        </script>
+
+
+        <script type="text/javascript" src="bundle.js"></script>
+
+    </body>
+</html>
