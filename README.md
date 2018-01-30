@@ -1,16 +1,17 @@
 # data-stoar
 data-stoar is a page parser that will look for script tags on the current page with specific data attributes and pass them back as a formatted object.
 
+#### NPM
 ```bash
 npm install data-stoar
 ```
-
+#### Yarn
 ```bash
 yarn add data-stoar
 ```
 
 ## How to use data-stoar
-Data is passed to the data-stoar via script tags in the rendered HTML. I recommend using the script tag type of "applicaiton/json" that way your browser will never exicute the script tag.
+Data is passed to the data-stoar via data-attributes or json script tags in the rendered HTML. If you use the script tag I recommend using the type of "applicaiton/json" that way your browser will not execute the script tag.
 
 ```HTML
 <script type="application/json"
@@ -35,10 +36,11 @@ Data is passed to the data-stoar via script tags in the rendered HTML. I recomme
 </div>
 
 ```
-There are three data attributes that data-stoar looks for on the script tag
+There are three data attributes that data-stoar looks for on a html tag
 1) `data-component` This is the name associated with the component when the array of found components is returned
-2) `data-component-config` This tells data-stoar that this particlar json is a config for all components found on the page of this component type. So this json object will be passed to each component, in the example above, with the type `myNewComponent`.
-3) `data-component-instance` This attribute will tell data-stoar that you want this json data to go to a spicific instance of a component on the page. In the case above `1`.
+2) `data-component-config` This tells data-stoar that this particular json is a config for all components found on the page of this component type. So this json object will be passed to each component, in the example above, with the type `myNewComponent`.
+3) `data-component-instance` This attribute will tell data-stoar that you want this json data to go to a specific instance of a component on the page. In the case above `1`.
+4) If you have chosen to use data attributes to pass data to the data-stoar then all the other data attributes on the tag will be passed in the data or config objects returned in the data from data-stoar.
 
 In your javascript now you can create a new instance of the data-stoar by doing the following:
 
@@ -87,6 +89,7 @@ pageComponents [
 
 ## Change Log
 ### v2.0.0 - Breaking Changes
-* The instance object now returns the config with every instance
 * The data attribute in the instance object is no longer an array. *This is the breaking Change*
+* The instance object now returns the config with every instance
+* You can now use data attributes to pass data to the data-stoar not just use the json script tag
 * Added some more documentation
