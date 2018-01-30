@@ -5,12 +5,17 @@ data-stoar is a page parser that will look for script tags on the current page w
 npm install data-stoar
 ```
 
+```bash
+yarn add data-stoar
+```
+
 ## How to use data-stoar
 Data is passed to the data-stoar via script tags in the rendered HTML. I recommend using the script tag type of "applicaiton/json" that way your browser will never exicute the script tag.
 
 ```HTML
 <script type="application/json"
         data-component="myNewComponent"
+        data-component-config
         data-component-instance="1">
         {
             "myTestData"  : "Data passed to my component",
@@ -23,7 +28,7 @@ Data is passed to the data-stoar via script tags in the rendered HTML. I recomme
 
 <div
     data-component="myNewComponent"
-    data-component-instance="1"
+    data-component-instance="2"
     data-my-special-info="Component info specific to this instance"
     data-title-info="The Data Stoar is fantastic">
     <h1>My cool component</h1>
@@ -42,24 +47,46 @@ import DataStoar from 'data-stoar'
 
 let pageComponents = new DataStoar();
 
-/*
+/* Result from the HTML above
 pageComponents [
-  {
-      "name": "myNewComponent",
-      "instances": [
-          {
-              "id": "1",
-              "data": [],
-              "config": {
-                  "myTestData"  : "Data passed to my component",
-                  "myTestData2" : {
-                      foo : "BAR",
-                      baz : "zing"
-                  }
-               }
-          }
-      ]
-  },
+    {
+        "name": "myNewComponent",
+        "instances": [
+            {
+                "id": "1",
+                "data": {},
+                "config": {
+                    "myTestData"  : "Data passed to my component",
+                    "myTestData2" : {
+                        foo : "BAR",
+                        baz : "zing"
+                    }
+                }
+            },
+            {
+                "id": "2",
+                "config": {
+                    "myTestData"  : "Data passed to my component",
+                    "myTestData2" : {
+                        foo : "BAR",
+                        baz : "zing"
+                    }
+                },
+                "data": {
+                    "mySpecialInfo" : "Component info specific to this instance",
+                    "titleInfo" : "The Data Stoar is fantastic"
+                }
+            }
+            }
+        ]
+    },
 ]
 */
 ```
+
+
+## Change Log
+### v2.0.0 - Breaking Changes
+* The instance object now returns the config with every instance
+* The data attribute in the instance object is no longer an array. *This is the breaking Change*
+* Added some more documentation

@@ -2,12 +2,21 @@ module.exports = class Stoar {
 
     constructor(){
 
-        this.AllData           = [];
+        this.AllData            = [];
 
-        var data               = this.getAllData();
-        var componentList      = this._list( data, 'componentName' );
-        var components         = [];
-        var self               = this;
+        this._filter            = this._filter.bind(this);
+        this._list              = this._list.bind(this);
+        this._cleanupArray      = this._cleanupArray.bind(this);
+        this._cleanup           = this._cleanup.bind(this);
+        this._mergeToObject     = this._mergeToObject.bind(this);
+        this.getInstances       = this.getInstances.bind(this);
+        this.getAllData         = this.getAllData.bind(this);
+        this.getComponentConfig = this.getComponentConfig.bind(this);
+
+        var data                = this.getAllData();
+        var componentList       = this._list( data, 'componentName' );
+        var components          = [];
+        var self                = this;
 
         componentList.map( function( component ){
             components.push({
@@ -44,17 +53,62 @@ module.exports = class Stoar {
             }
         });
 
+        // console.log('[ list ]', list)
+
         return list;
     }
 
-    _cleanup( data ){
-        return data.filter( function( item ){
-            if( item.component ) delete item.component
-            delete item.componentConfig;
-            delete item.componentInstance;
-            delete item.componentName
+    _cleanupArray( data ){
+        return data.filter( ( item ) => {
+            this._cleanup(item)
             return item;
         });
+    }
+
+    _cleanup( item ){
+        if( item.component ) delete item.component
+        delete item.componentConfig;
+        delete item.componentInstance;
+        delete item.componentName
+        return item;
+    }
+
+    _mergeToObject( data ) {
+        let newObj = {}
+
+        data.forEach( ( item, key ) => {
+            newObj = {
+                ...newObj,
+                ...item
+            }
+        } )
+
+        return newObj
+    }
+
+    getComponentConfig( component ){
+
+        var allInstanceData = this._filter( this.AllData, 'componentName', component );
+        var instances       = this._list( allInstanceData, 'componentInstance' );
+        var self            = this;
+        var config          = {};
+        var configsFound    = 0;
+
+        instances.forEach( ( instance, index ) => {
+
+            var data   = self._filter( allInstanceData, 'componentInstance', instance );
+            var foundConfig = self._filter( data, 'componentConfig', true );
+
+            if( foundConfig.length ) {
+                config = foundConfig;
+                configsFound ++;
+            }
+
+        } )
+
+        if( configsFound > 1 ) console.warn( "There should only be one config per component but found " + configsFound + " for " + component + ". Sense there are two or more configs data stoar will pass the last found config to be stoared.")
+
+        return config;
     }
 
     /*
@@ -66,20 +120,27 @@ module.exports = class Stoar {
         var instances       = this._list( allInstanceData, 'componentInstance' );
         var self            = this;
 
+        var config          = this.getComponentConfig( component );
+
         return instances.map( function( inst ){
 
             var data   = self._filter( allInstanceData, 'componentInstance', inst );
-            var config = self._filter( data, 'componentConfig', true );
+
+
+            var config2 = self._filter( data, 'componentConfig', true );
                 data   = self._filter( data, 'componentConfig', false )
-                data   = self._cleanup( data );
+                data   = self._cleanupArray( data );
 
             var obj = {
                 id   : inst,
-                data
+                data : self._mergeToObject( data )
             };
 
             // Add the config if it exists
-            if ( config.length ){ obj.config = self._cleanup( config )[0]; }
+            if ( config.length ){
+                obj.config = self._cleanupArray( config )[0];
+            }
+
 
             return obj;
         });
@@ -102,7 +163,9 @@ module.exports = class Stoar {
                 name   = script.dataset.component,
                 config = script.dataset.componentConfig !== undefined,
                 componentInstance = script.dataset.componentInstance,
-                data   = isJSON ? JSON.parse( script.innerHTML ) : this._cleanup( [ {...script.dataset} ] );
+                data   = isJSON ? JSON.parse( script.innerHTML ) : this._cleanup(  { ...script.dataset } );
+
+
 
                 // Add to the data JSON object
                 data.componentName = name;
