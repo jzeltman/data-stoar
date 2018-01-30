@@ -88,7 +88,7 @@ pageComponents [
 
 
 ## Change Log
-### v2.0.0 - Breaking Changes
+### v2.0.0 - 01.30.2018 - Breaking Changes
 * The data attribute in the instance object is no longer an array. *This is the breaking Change*
 * The instance object now returns the config with every instance
 * You can now use data attributes to pass data to the data-stoar not just use the json script tag
