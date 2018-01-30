@@ -2,12 +2,12 @@ module.exports = class Stoar {
 
     constructor(){
 
-        this.AllData      = [];
+        this.AllData           = [];
 
-        var data          = this.getAllData();
-        var componentList = this._list( data, 'componentName' );
-        var components    = [];
-        var self          = this;
+        var data               = this.getAllData();
+        var componentList      = this._list( data, 'componentName' );
+        var components         = [];
+        var self               = this;
 
         componentList.map( function( component ){
             components.push({
