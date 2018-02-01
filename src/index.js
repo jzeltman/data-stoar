@@ -76,6 +76,8 @@ module.exports = class Stoar {
     _mergeToObject( data ) {
         let newObj = {}
 
+        if( data.element ) delete data.element;
+
         data.forEach( ( item, key ) => {
             newObj = {
                 ...newObj,
@@ -124,16 +126,12 @@ module.exports = class Stoar {
 
         return instances.map( function( inst ){
 
-            var data   = self._filter( allInstanceData, 'componentInstance', inst );
-
-
-            var config2 = self._filter( data, 'componentConfig', true );
-                data   = self._filter( data, 'componentConfig', false )
+            var data   = self._filter( allInstanceData, 'componentConfig', false )
                 data   = self._cleanupArray( data );
 
             var obj = {
-                id   : inst,
-                data : self._mergeToObject( data )
+                id      : inst,
+                data    : self._mergeToObject( data )
             };
 
             // Add the config if it exists
@@ -152,18 +150,18 @@ module.exports = class Stoar {
     getAllData(){
 
         // Grab the component script elements
-        var componentScripts = document.querySelectorAll('[data-component]');
+        var componentElement = document.querySelectorAll('[data-component]');
 
         // Parse the scripts from components and add their data to the Store
-        for ( var i = 0; i < componentScripts.length; i++ ){
+        for ( var i = 0; i < componentElement.length; i++ ){
 
             // Localize variables
-            var script = componentScripts[i],
-                isJSON = ( ( script.nodeName === 'SCRIPT' ) && ( script.type === 'application/json' ) ),
-                name   = script.dataset.component,
-                config = script.dataset.componentConfig !== undefined,
-                componentInstance = script.dataset.componentInstance,
-                data   = isJSON ? JSON.parse( script.innerHTML ) : this._cleanup(  { ...script.dataset } );
+            var element = componentElement[i],
+                isJSON = ( ( element.nodeName === 'SCRIPT' ) && ( element.type === 'application/json' ) ),
+                name   = element.dataset.component,
+                config = element.dataset.componentConfig !== undefined,
+                componentInstance = element.dataset.componentInstance,
+                data   = isJSON ? JSON.parse( element.innerHTML ) : this._cleanup(  { ...element.dataset } );
 
 
 
@@ -171,6 +169,7 @@ module.exports = class Stoar {
                 data.componentName = name;
                 data.componentInstance = componentInstance;
                 data.componentConfig = config;
+                if( !isJSON ) data.element = element;
 
             // Add the data to the store, and initialize the app
             this.AllData.push( { ...data } );

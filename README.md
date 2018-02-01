@@ -76,7 +76,8 @@ pageComponents [
                 },
                 "data": {
                     "mySpecialInfo" : "Component info specific to this instance",
-                    "titleInfo" : "The Data Stoar is fantastic"
+                    "titleInfo" : "The Data Stoar is fantastic",
+                    "element"   : <DOM ELEMENT/>
                 }
             }
             }
@@ -88,6 +89,9 @@ pageComponents [
 
 
 ## Change Log
+### v2.1.0 - 01.31.2018
+* In the return object I now pass back the dom element that the data-component attribute was tied to when that element is not a script tag. This allows you to have a handle on the DOM element so you can bind to the targeted element.
+
 ### v2.0.0 - 01.30.2018 - Breaking Changes
 * The data attribute in the instance object is no longer an array. *This is the breaking Change*
 * The instance object now returns the config with every instance
