@@ -156,13 +156,21 @@ module.exports = class Stoar {
         for ( var i = 0; i < componentElement.length; i++ ){
 
             // Localize variables
-            var element = componentElement[i],
-                isJSON = ( ( element.nodeName === 'SCRIPT' ) && ( element.type === 'application/json' ) ),
-                name   = element.dataset.component,
-                config = element.dataset.componentConfig !== undefined,
-                componentInstance = element.dataset.componentInstance,
-                data   = isJSON ? JSON.parse( element.innerHTML ) : this._cleanup(  { ...element.dataset } );
-
+            let element = componentElement[i]
+            let isJSON = ( ( element.nodeName === 'SCRIPT' ) && ( element.type === 'application/json' ) )
+            let name   = element.dataset.component
+            let config = element.dataset.componentConfig !== undefined
+            let componentInstance = element.dataset.componentInstance
+            let data = {};
+            
+            if( isJSON ){
+                data = {
+                    ...this._cleanup( { ...element.dataset } ),
+                    ...JSON.parse( element.innerHTML )
+                }
+            } else {
+                data = this._cleanup( { ...element.dataset } )
+            }
 
 
                 // Add to the data JSON object

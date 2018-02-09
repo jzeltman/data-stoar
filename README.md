@@ -89,6 +89,9 @@ pageComponents [
 
 
 ## Change Log
+### v2.2.0 - 02.9.2018
+* Any extra data attributes on the script tags will now be passed in either the config or the data objects just as they are for html tags.
+
 ### v2.1.0 - 01.31.2018
 * In the return object I now pass back the dom element that the data-component attribute was tied to when that element is not a script tag. This allows you to have a handle on the DOM element so you can bind to the targeted element.
 
