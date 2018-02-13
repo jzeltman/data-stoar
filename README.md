@@ -87,8 +87,10 @@ pageComponents [
 */
 ```
 
-
 ## Change Log
+### v2.2.1 - 02.13.2018
+* Bug fixe for multiple instances of the same component. 
+
 ### v2.2.0 - 02.9.2018
 * Any extra data attributes on the script tags will now be passed in either the config or the data objects just as they are for html tags.
 

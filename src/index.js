@@ -1,6 +1,6 @@
 module.exports = class Stoar {
 
-    constructor(){
+    constructor( ){
 
         this.AllData            = [];
 
@@ -124,9 +124,9 @@ module.exports = class Stoar {
 
         var config          = this.getComponentConfig( component );
 
-        return instances.map( function( inst ){
+        return instances.map( ( inst ) => {
 
-            var data   = self._filter( allInstanceData, 'componentConfig', false )
+            var data   = self._filter( allInstanceData, 'componentInstance' , inst )
                 data   = self._cleanupArray( data );
 
             var obj = {
@@ -162,7 +162,7 @@ module.exports = class Stoar {
             let config = element.dataset.componentConfig !== undefined
             let componentInstance = element.dataset.componentInstance
             let data = {};
-            
+
             if( isJSON ){
                 data = {
                     ...this._cleanup( { ...element.dataset } ),
