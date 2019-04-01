@@ -157,7 +157,7 @@ module.exports = class Stoar {
 
             // Localize variables
             let element = componentElement[i]
-            let isJSON = ( ( element.nodeName === 'SCRIPT' ) && ( element.type === 'application/json' ) )
+            let isJSON = element.nodeName === 'SCRIPT' 
             let name   = element.dataset.component
             let config = element.dataset.componentConfig !== undefined
             let componentInstance = element.dataset.componentInstance

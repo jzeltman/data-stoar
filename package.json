@@ -1,15 +1,16 @@
 {
   "name": "data-stoar",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Grab all the data attributes from an HTML document, and Stoar them for use",
   "main": "lib/index.js",
   "repository": "https://github.com/jzeltman/data-stoar",
   "scripts": {
     "dev": "webpack-dev-server --open",
     "compile": "babel --presets es2015,stage-0 -d lib/ src/ -w",
+    "build" : "babel --presets es2015,stage-0 -d lib/ src/",
     "test": "npm-run-all --parallel dev compile"
   },
-  "author": "Joshua Zeltman",
+  "author": "Ben Westrate + Josh Zeltman",
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
